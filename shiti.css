@@ -1,0 +1,133 @@
+* {
+  box-sizing: border-box;
+  font-family: monospace;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0e0e10;
+  color: #eee;
+  overflow-x: hidden;
+  /*overflow-y: hidden;*/
+}
+
+header {
+  overflow: hidden;
+  padding-top: 10px;
+  background-color: #18181b;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  transition: 0.3s;
+}
+
+::-webkit-scrollbar-track {
+  background: #171717;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2b2b33;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6f6f6f;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1.5fr 0.5fr;
+  grid-template-rows: 0.3fr 2fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "TTV-Top YT-Top"
+    "TTV-Container YT-Container";
+  padding: 20px;
+}
+
+.TTV-Top {
+  display: grid;
+  grid-area: TTV-Top;
+  justify-content: center;
+}
+
+.YT-Top {
+  display: grid;
+  grid-area: YT-Top;
+  justify-content: center;
+}
+
+.TTV-Container { grid-area: TTV-Container; }
+
+.YT-Container {
+  display: grid; 
+  grid-template-columns: 1fr; 
+  grid-template-rows: 0.3fr 0.3fr 2.4fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    "."
+    "."
+    "."; 
+  grid-area: YT-Container; 
+  padding: 10px;
+  justify-items: center;
+  align-items: center;
+}
+
+.search-ttv, .search-yt, .search-ttv-id {
+  color: #eee;
+  background-color: #1b1b1f;
+  border: none;
+  width: 20em;
+  text-decoration: none;
+  outline: none;
+  transition: 0.2s;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.7em 1em 0.7em 3em;
+}
+.search-yt { width: 20em; }
+.search-ttv-id { width: 10em; padding: 0.7em 1em; }
+
+.search-ttv:hover, .search-yt:hover, .search-ttv-id:hover {
+  background-color: #2a2a2f;
+}
+
+.ttv-input, .yt-input {
+  position: relative;
+}
+
+.ttv-ico, .yt-ico {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+}
+
+
+
+/*===== ICONOS =====*/
+[class*=fa-]:before {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: 400;
+  font-size: inherit;
+  line-height: inherit;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class*=m-right]:before {
+  margin-right: 10px;
+}
+
+[class*=m-left]:before {
+  margin-left: 10px;
+}
