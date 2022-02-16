@@ -42,10 +42,16 @@ https://dev.twitch.tv/docs/v5/reference/channels#get-channel-videos
 https://dev.twitch.tv/docs/embed/video-and-clips
 */
 
+
+let token = '';
+
 $(".search-ttv").on('keyup', async function(e) {
   if (e.key === 'Enter' || e.keyCode === 13) {
+    if (token == '')
+      token = await Bearer();
     let data = await TTVGetUser($(this).val())
-    let id = await TTVGetStream(data._id)
+    let id = await TTVGetStream(data.id)
+    console.log(id)
 
     $('.TTV-Container div').remove()
 
@@ -85,37 +91,59 @@ $(".search-ttv-id").on('keyup', async function(e) {
   }
 });
 
-function TTVGetUser(user) {
+
+// ===== GET USER ID ===== //
+function TTVGetUser(username) {
   return new Promise(resolve => {
     $.ajax({
-      url: `https://api.twitch.tv/kraken/users?login=${user}`,
+      url: 'https://api.twitch.tv/helix/users',
+      data: {
+        login: username
+      },
       type: 'GET',
       dataType: 'json',
       contentType: 'application/json',
       headers: {
-        'Accept': 'application/vnd.twitchtv.v5+json',
-        'Client-ID': 'njdjdkepu3gygen6rwc9lxwaio4082'
+        'Authorization': `Bearer ${token}`,
+        'Client-Id': 'njdjdkepu3gygen6rwc9lxwaio4082'
       },
-      success: function(data) {
-        resolve(data.users[0])
+      success: function(res) {
+        resolve(res.data[0])
       }
     });
   });
 }
 
+
 function TTVGetStream(id) {
   return new Promise(resolve => {
     $.ajax({
-      url: `https://api.twitch.tv/kraken/channels/${id}/videos`,
+      url: `https://api.twitch.tv/helix/videos?user_id=${id}`,
       type: 'GET',
       dataType: 'json',
       contentType: 'application/json',
       headers: {
-        'Accept': 'application/vnd.twitchtv.v5+json',
-        'Client-ID': 'njdjdkepu3gygen6rwc9lxwaio4082'
+        'Authorization': `Bearer ${token}`,
+        'Client-Id': 'njdjdkepu3gygen6rwc9lxwaio4082'
       },
       success: function(data) {
-        resolve(data.videos[0]._id.replace('v', ''))
+        resolve(data.data[0].id)
+      }
+    });
+  });
+}
+
+
+// ===== GENERATE BEARER AUTH =====//
+function Bearer() {
+  return new Promise(resolve => {
+    $.ajax({
+      url: `https://id.twitch.tv/oauth2/token?client_id=njdjdkepu3gygen6rwc9lxwaio4082&client_secret=vqzv9ursi7scn1b9i0s4mv15zqjtlu&grant_type=client_credentials`,
+      type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json',
+      success: function(data) {
+        resolve(data.access_token)
       }
     });
   });
